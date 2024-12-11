@@ -13,8 +13,8 @@
     "patterns": [
       {
         "type": "CLAS|INTF|TABL",
-        "oldName": "Z_1224_(.*)",
-        "newName": "Z1224_$1"
+        "oldName": "Z2UI5_(.*)",
+        "newName": "ZUI1224_$1"
       }
     ]
   },
