@@ -130,8 +130,7 @@ CLASS zui1224_cl_app_view1_js IMPLEMENTATION.
              `                    } else if (z2ui5.oViewNest2?.byId(openById)) {` && |\n|  &&
              `                        oControl = z2ui5.oViewNest2.byId(openById);` && |\n|  &&
              `                    } else {` && |\n|  &&
-             `                        if (sapUiCore.byId(openById)) {` && |\n|  &&
-             `                            //   oControl = sapUiCore.byId(openById);` && |\n|  &&
+             `                        if (Element.getElementById(openById)) {` && |\n|  &&
              `                            oControl = Element.getElementById(openById);` && |\n|  &&
              `                        } else {` && |\n|  &&
              `                            oControl = null;` && |\n|  &&
@@ -340,6 +339,11 @@ CLASS zui1224_cl_app_view1_js IMPLEMENTATION.
              `                        navConTo = Fragment.byId("popupId", args[2]);` && |\n|  &&
              `                        navCon.to(navConTo);` && |\n|  &&
              `                        break;` && |\n|  &&
+             `                    case 'POPOVER_NAV_CONTAINER_TO':` && |\n|  &&
+             `                        navCon = Fragment.byId("popoverId", args[1]);` && |\n|  &&
+             `                        navConTo = Fragment.byId("popoverId", args[2]);` && |\n|  &&
+             `                        navCon.to(navConTo);` && |\n|  &&
+             `                        break;` && |\n|  &&
              `                    case 'URLHELPER':` && |\n|  &&
              `                        var URLHelper = mobileLibrary.URLHelper;` && |\n|  &&
              `                        var params = args[2];` && |\n|  &&
@@ -514,12 +518,12 @@ CLASS zui1224_cl_app_view1_js IMPLEMENTATION.
              `                });` && |\n|  &&
              `                z2ui5.oView.setModel(z2ui5.oDeviceModel, "device");` && |\n|  &&
              `                if (z2ui5.oResponse.PARAMS.S_VIEW?.SWITCH_DEFAULT_MODEL_PATH){` && |\n|  &&
+             |\n|.
+    result = result &&
              `                  z2ui5.oView.setModel(oview_model, "http");` && |\n|  &&
              `                    }` && |\n|  &&
              `                z2ui5.oApp.removeAllPages();` && |\n|  &&
              `                z2ui5.oApp.insertPage(z2ui5.oView);` && |\n|  &&
-             |\n|.
-    result = result &&
              `            },` && |\n|  &&
              `        })` && |\n|  &&
              `    });` && |\n|  &&
