@@ -367,15 +367,34 @@ CLASS zui1224_cl_core_client IMPLEMENTATION.
 
   ENDMETHOD.
 
+  METHOD zui1224_if_client~set_nav_back.
+
+    mo_action->ms_next-s_set-set_nav_back = val.
+
+  ENDMETHOD.
+
+  METHOD zui1224_if_client~set_push_state.
+
+    mo_action->ms_next-s_set-set_push_state = val.
+
+  ENDMETHOD.
+
+
+  METHOD zui1224_if_client~set_app_state_active.
+
+    mo_action->ms_next-s_set-set_app_state_active = val.
+
+  ENDMETHOD.
+
   METHOD zui1224_if_client~set_session_stateful.
 
     DATA(lv_check_sticky) = CAST zui1224_if_app( mo_action->mo_app->mo_app )->check_sticky.
-    IF lv_check_sticky = abap_true AND stateful = abap_true.
+    IF lv_check_sticky = abap_true AND val = abap_true.
       RAISE EXCEPTION TYPE zui1224_cx_util_error
         EXPORTING
           val = `STATEFUL_ALREADY_ACTIVATED_ERROR`.
     ENDIF.
-    IF stateful = abap_true.
+    IF val = abap_true.
       mo_action->ms_next-s_set-s_stateful-active = 1.
       CAST zui1224_if_app( mo_action->mo_app->mo_app )->check_sticky = abap_true.
     ELSE.

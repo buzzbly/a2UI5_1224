@@ -169,9 +169,9 @@ CLASS zui1224_cl_http_handler IMPLEMENTATION.
                 |<script>| && |\n| &&
              |  function onInitComponent()\{| && |\n| &&
              |    sap.ui.require.preload(\{| && |\n| &&
+             |      "z2ui5/css/style.css": '{ lv_style_css }',| && |\n| &&
              |      "z2ui5/manifest.json": '{ zui1224_cl_app_manifest_json=>get( ) }',| && |\n| &&
              |      "z2ui5/Component.js": function()\{{ zui1224_cl_app_component_js=>get( ) }{ is_config-custom_js }\},| && |\n| &&
-             |      "z2ui5/css/style.css": '{ lv_style_css }',| && |\n| &&
              |      "z2ui5/model/models.js": function()\{{  zui1224_cl_app_models_js=>get( ) }\},| && |\n| &&
              |      "z2ui5/view/App.view.xml": '{ zui1224_cl_app_app_xml=>get( ) }',| && |\n| &&
              |      "z2ui5/controller/App.controller.js": function()\{{ zui1224_cl_app_app_js=>get( ) }\},| && |\n| &&
