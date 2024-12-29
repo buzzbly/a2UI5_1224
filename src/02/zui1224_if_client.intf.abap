@@ -13,10 +13,13 @@ INTERFACE zui1224_if_client
       cross_app_nav_to_ext      TYPE string VALUE `CROSS_APP_NAV_TO_EXT`,
       cross_app_nav_to_prev_app TYPE string VALUE `CROSS_APP_NAV_TO_PREV_APP`,
       popup_nav_container_to    TYPE string VALUE `POPUP_NAV_CONTAINER_TO`,
+      popover_nav_container_to  TYPE string VALUE `POPOVER_NAV_CONTAINER_TO`,
       download_b64_file         TYPE string VALUE `DOWNLOAD_B64_FILE`,
       set_size_limit            TYPE string VALUE `SET_SIZE_LIMIT`,
       set_odata_model           TYPE string VALUE `SET_ODATA_MODEL`,
       urlhelper                 TYPE string VALUE `URLHELPER`,
+      history_back              TYPE string VALUE `HISTORY_BACK`,
+      CLIPBOARD_APP_STATE       TYPE string VALUE `CLIPBOARD_APP_STATE`,
     END OF cs_event.
 
   CONSTANTS:
@@ -40,7 +43,19 @@ INTERFACE zui1224_if_client
 
   METHODS set_session_stateful
     IMPORTING
-      stateful TYPE abap_bool DEFAULT abap_true.
+      val TYPE abap_bool DEFAULT abap_true.
+
+  METHODS set_app_state_active
+    IMPORTING
+      val TYPE abap_bool DEFAULT abap_true.
+
+  METHODS set_push_state
+    IMPORTING
+      val TYPE string optional.
+
+  METHODS set_nav_back
+    IMPORTING
+      val TYPE abap_bool DEFAULT abap_true.
 
   METHODS nest_view_display
     IMPORTING

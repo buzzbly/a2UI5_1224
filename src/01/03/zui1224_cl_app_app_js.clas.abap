@@ -20,10 +20,12 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
 
     result =              `sap.ui.define(["sap/ui/core/mvc/Controller",` && |\n|  &&
              `  "z2ui5/controller/View1.controller",` && |\n|  &&
-             `], function (BaseController, Controller) {` && |\n|  &&
+             `  "z2ui5/cc/Server",` && |\n|  &&
+             `  "sap/ui/core/routing/HashChanger"` && |\n|  &&
+             `], function (BaseController, Controller, Server, HashChanger) {` && |\n|  &&
              `  return BaseController.extend("z2ui5.controller.App", {` && |\n|  &&
              `` && |\n|  &&
-             `    onInit: async function () {` && |\n|  &&
+             `    onInit() {` && |\n|  &&
              `` && |\n|  &&
              `      z2ui5.oOwnerComponent = this.getOwnerComponent();` && |\n|  &&
              `      z2ui5.oConfig.pathname = z2ui5.oOwnerComponent.getManifest()["sap.app"].dataSources.http.uri;` && |\n|  &&
@@ -45,6 +47,12 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `      z2ui5.onAfterRoundtrip = [];` && |\n|  &&
              `` && |\n|  &&
              `      z2ui5.checkNestAfter = false;` && |\n|  &&
+             `` && |\n|  &&
+             `    //  if (sap.ui.core.routing.HashChanger.getInstance().getHash().includes("z2ui5-xapp-state")){` && |\n|  &&
+             `       if (HashChanger.getInstance().getHash()){` && |\n|  &&
+             `          z2ui5.checkInit = true;` && |\n|  &&
+             `          Server.Roundtrip();` && |\n|  &&
+             `      }` && |\n|  &&
              `` && |\n|  &&
              `    }` && |\n|  &&
              `  });` && |\n|  &&
@@ -174,6 +182,9 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `        title: {` && |\n|  &&
              `          type: "string"` && |\n|  &&
              `        },` && |\n|  &&
+             `        ApplicationFullWidth:{` && |\n|  &&
+             `          type : "boolean"` && |\n|  &&
+             `        }` && |\n|  &&
              `      }` && |\n|  &&
              `    },` && |\n|  &&
              `    setTitle(val) {` && |\n|  &&
@@ -184,6 +195,18 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `        console.error("Launchpad Service to set Title not found");` && |\n|  &&
              `      }` && |\n|  &&
              `    },` && |\n|  &&
+             `` && |\n|  &&
+             `    setApplicationFullWidth(val) {` && |\n|  &&
+             `      this.setProperty("ApplicationFullWidth", val);` && |\n|  &&
+             `      z2ui5.ApplicationFullWidth = val;` && |\n|  &&
+             `    sap.ui.require([` && |\n|  &&
+             `      "sap/ushell/services/AppConfiguration"` && |\n|  &&
+             `    ], async (AppConfiguration)  => {` && |\n|  &&
+             `      AppConfiguration.setApplicationFullWidth(z2ui5.ApplicationFullWidth);` && |\n|  &&
+             `    });` && |\n|  &&
+             `` && |\n|  &&
+             `  },` && |\n|  &&
+             `` && |\n|  &&
              `    renderer(oRm, oControl) { }` && |\n|  &&
              `  });` && |\n|  &&
              `}` && |\n|  &&
@@ -495,6 +518,8 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `          defaultValue: "Upload"` && |\n|  &&
              `        },` && |\n|  &&
              `        enabled: {` && |\n|  &&
+             |\n|.
+    result = result &&
              `          type: "boolean",` && |\n|  &&
              `          defaultValue: true` && |\n|  &&
              `        },` && |\n|  &&
@@ -518,8 +543,6 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `          type: "boolean",` && |\n|  &&
              `          defaultValue: true` && |\n|  &&
              `        },` && |\n|  &&
-             |\n|.
-    result = result &&
              `        checkDirectUpload: {` && |\n|  &&
              `          type: "boolean",` && |\n|  &&
              `          defaultValue: false` && |\n|  &&
@@ -997,6 +1020,8 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `    DateCreateObject: (s) => new Date(s),` && |\n|  &&
              `    //  DateAbapTimestampToDate: (sTimestamp) => new sap.gantt.misc.Format.abapTimestampToDate(sTimestamp), commented for UI5 2.x compatibility` && |\n|  &&
              `    DateAbapDateToDateObject: (d) => new Date(d.slice(0, 4), parseInt(d.slice(4, 6)) - 1, d.slice(6, 8)),` && |\n|  &&
+             |\n|.
+    result = result &&
              `    DateAbapDateTimeToDateObject: (d, t = '000000') => new Date(d.slice(0, 4), parseInt(d.slice(4, 6)) - 1, d.slice(6, 8), t.slice(0, 2), t.slice(2, 4), t.slice(4, 6)),` && |\n|  &&
              `  };` && |\n|  &&
              `}` && |\n|  &&
@@ -1020,8 +1045,6 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `      this.setProperty("favicon", val);` && |\n|  &&
              `      let headTitle = document.querySelector('head');` && |\n|  &&
              `      let setFavicon = document.createElement('link');` && |\n|  &&
-             |\n|.
-    result = result &&
              `      setFavicon.setAttribute('rel', 'shortcut icon');` && |\n|  &&
              `      setFavicon.setAttribute('href', val);` && |\n|  &&
              `      headTitle.appendChild(setFavicon);` && |\n|  &&
@@ -1056,7 +1079,6 @@ CLASS zui1224_cl_app_app_js IMPLEMENTATION.
              `  });` && |\n|  &&
              `}` && |\n|  &&
              `);` && |\n|  &&
-             `` && |\n|  &&
               ``.
 
   ENDMETHOD.

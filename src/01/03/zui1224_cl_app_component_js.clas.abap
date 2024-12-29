@@ -18,21 +18,27 @@ CLASS zui1224_cl_app_component_js IMPLEMENTATION.
 
   METHOD get.
 
-    result =              `sap.ui.define(["sap/ui/core/UIComponent", "z2ui5/model/models","z2ui5/cc/Server", "sap/ui/VersionInfo", "z2ui5/cc/DebugTool"` && |\n|  &&
-             `    ], function (UIComponent, Models, Server, VersionInfo, DebugTool) {` && |\n|  &&
+    result =              `sap.ui.define(["sap/ui/core/UIComponent", "z2ui5/model/models", "z2ui5/cc/Server", "sap/ui/VersionInfo", "z2ui5/cc/DebugTool"` && |\n|  &&
+             `], function (UIComponent, Models, Server, VersionInfo, DebugTool) {` && |\n|  &&
              `    return UIComponent.extend("z2ui5.Component", {` && |\n|  &&
              `        metadata: {` && |\n|  &&
-             `            manifest: "json"` && |\n|  &&
+             `            manifest: "json",` && |\n|  &&
+             `            interfaces: [` && |\n|  &&
+             `                "sap.ui.core.IAsyncContentCreation"` && |\n|  &&
+             `            ]` && |\n|  &&
              `        },` && |\n|  &&
-             `         init: async function () {` && |\n|  &&
-             `` && |\n|  &&
+             `        async init() {` && |\n|  &&
              `            UIComponent.prototype.init.apply(this, arguments);` && |\n|  &&
              `` && |\n|  &&
-             `            if (typeof z2ui5 == 'undefined'){` && |\n|  &&
-             `              z2ui5 = {};` && |\n|  &&
+             `            if (typeof z2ui5 == 'undefined') {` && |\n|  &&
+             `                z2ui5 = {};` && |\n|  &&
              `            }` && |\n|  &&
-             `            this.getRouter().initialize();` && |\n|  &&
+             `            z2ui5 = {};` && |\n|  &&
+             `` && |\n|  &&
              `            z2ui5.oRouter = this.getRouter();` && |\n|  &&
+             `            z2ui5.oRouter.initialize();` && |\n|  &&
+             `            z2ui5.oRouter.stop();` && |\n|  &&
+             `` && |\n|  &&
              `            z2ui5.oDeviceModel = Models.createDeviceModel();` && |\n|  &&
              `            this.setModel(z2ui5.oDeviceModel, "device");` && |\n|  &&
              `` && |\n|  &&
@@ -41,13 +47,13 @@ CLASS zui1224_cl_app_component_js IMPLEMENTATION.
              `` && |\n|  &&
              `            try {` && |\n|  &&
              `                z2ui5.oLaunchpadService = await this.getService("ShellUIService");` && |\n|  &&
-             `            } catch (e) {}` && |\n|  &&
+             `            } catch (e) { }` && |\n|  &&
              `` && |\n|  &&
              `            let oVersionInfo = await VersionInfo.load();` && |\n|  &&
              `            z2ui5.oConfig.UI5VersionInfo = {` && |\n|  &&
-             `                version : oVersionInfo.version,` && |\n|  &&
-             `                buildTimestamp : oVersionInfo.buildTimestamp,` && |\n|  &&
-             `                gav : oVersionInfo.gav,` && |\n|  &&
+             `                version: oVersionInfo.version,` && |\n|  &&
+             `                buildTimestamp: oVersionInfo.buildTimestamp,` && |\n|  &&
+             `                gav: oVersionInfo.gav,` && |\n|  &&
              `            }` && |\n|  &&
              `` && |\n|  &&
              `            if (/iPad|iPhone/.test(navigator.platform)) {` && |\n|  &&
@@ -58,13 +64,20 @@ CLASS zui1224_cl_app_component_js IMPLEMENTATION.
              `` && |\n|  &&
              `            document.addEventListener("keydown", function (zEvent) {` && |\n|  &&
              `                if (zEvent?.ctrlKey && zEvent?.key === "F12") {` && |\n|  &&
-             `                   if (!z2ui5.debugTool){` && |\n|  &&
-             `                     z2ui5.debugTool = new DebugTool();` && |\n|  &&
-             `                     z2ui5.debugTool.show();` && |\n|  &&
-             `                   } else {` && |\n|  &&
-             `                     z2ui5.debugTool.close();` && |\n|  &&
-             `                     z2ui5.debugTool = null;` && |\n|  &&
-             `                   }` && |\n|  &&
+             `                    if (!z2ui5.debugTool) {` && |\n|  &&
+             `                        z2ui5.debugTool = new DebugTool();` && |\n|  &&
+             `                    }` && |\n|  &&
+             `                    z2ui5.debugTool.toggle();` && |\n|  &&
+             `                }` && |\n|  &&
+             `            });` && |\n|  &&
+             `` && |\n|  &&
+             `            window.addEventListener("popstate", (event) => {` && |\n|  &&
+             `                delete event?.state?.response?.PARAMS?.SET_PUSH_STATE;` && |\n|  &&
+             `                delete event?.state?.response?.PARAMS?.SET_APP_STATE_ACTIVE;` && |\n|  &&
+             `                if (event?.state?.view) {` && |\n|  &&
+             `                    z2ui5.oController.ViewDestroy();` && |\n|  &&
+             `                    z2ui5.oResponse = event.state.response;` && |\n|  &&
+             `                    z2ui5.oController.displayView(event.state.view, event.state.model);` && |\n|  &&
              `                }` && |\n|  &&
              `            });` && |\n|  &&
              `        },` && |\n|  &&
@@ -85,7 +98,6 @@ CLASS zui1224_cl_app_component_js IMPLEMENTATION.
              `        },` && |\n|  &&
              `    });` && |\n|  &&
              `});` && |\n|  &&
-             `` && |\n|  &&
               ``.
 
   ENDMETHOD.
